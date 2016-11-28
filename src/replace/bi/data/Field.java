@@ -1,4 +1,4 @@
-package replace.data.data;
+package replace.bi.data;
 
 /**
  * Created by Patrick on 28.11.16.

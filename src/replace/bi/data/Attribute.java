@@ -1,31 +1,36 @@
-package replace.data.data;
+package replace.bi.data;
 
 /**
  * Created by Patrick on 28.11.16.
  */
+public class Attribute {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Cl {
-
+    private boolean cl = false;
     private String name;
-    private List<Row> values = new ArrayList<Row>();
 
-    public Cl(String name) {
+    public static Attribute newAttribute (String name) {
+        if (name.equals("class")) {
+            return newAttributeForClass(name);
+        }
+        return new Attribute(name);
+    }
+
+    public static Attribute newAttributeForClass (String name) {
+        Attribute attribute = new Attribute(name);
+        attribute.cl = true;
+        return attribute;
+    }
+
+    private Attribute(String name) {
         this.name = name;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public List<Row> getValues() {
-        return this.values;
-    }
-
-    public void addValue(Row value) {
-        this.values.add(value);
+    public boolean isCl() {
+        return this.cl;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class Cl {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Cl other = (Cl) obj;
+        Attribute other = (Attribute) obj;
         if (name == null) {
             if (other.name != null)
                 return false;

@@ -1,10 +1,10 @@
-package replace.data.inputOutput;
+package replace.bi.inputOutput;
 
 /**
  * Created by Patrick on 28.11.16.
  */
 
-import replace.data.data.*;
+import replace.bi.data.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
