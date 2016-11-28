@@ -4,6 +4,7 @@ package replace.bi.inputOutput;
  * Created by Patrick on 28.11.16.
  */
 
+import replace.bi.DataMiningException;
 import replace.bi.data.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -18,7 +19,7 @@ public class DataSetWriter {
     private BufferedWriter writer;
     private DataSet dataset;
 
-    public DatasetWriter(String filename, DataSet dataset) {
+    public DataSetWriter(String filename, DataSet dataset) {
         this.filename = filename;
         this.dataset = dataset;
     }
@@ -36,7 +37,7 @@ public class DataSetWriter {
         }
     }
 
-    public void writeLine(Map<Attribute, ?> items, String clazzName) {
+    public void writeLine(Map<Attribute, ?> items, String clName) {
         StringBuilder builder = new StringBuilder();
         boolean first = true;
         for (Attribute attribute : dataset.getAttributes()) {
@@ -45,8 +46,8 @@ public class DataSetWriter {
             } else {
                 builder.append(SEPERATION_CHAR);
             }
-            if (attribute.isClazz() && !clazzName.isEmpty()) {
-                builder.append(clazzName);
+            if (attribute.isCl() && !clName.isEmpty()) {
+                builder.append(clName);
             } else {
                 builder.append(items.get(attribute) + "");
             }
