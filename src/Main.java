@@ -44,7 +44,7 @@ public class Main {
             } else if (args[2].equals("attributeMean")) {
                 missingValueReplacer = new replaceMissingValueWithAttributeMean(
                         dataset);
-            } else if (args[2].equals("clazzMean")) {
+            } else if (args[2].equals("classMean")) {
                 missingValueReplacer = new replaceMissingValueWithClMean(
                         dataset);
             } else if (args[2].equals("attribute2attributeMean")) {
