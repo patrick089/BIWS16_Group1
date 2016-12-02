@@ -1,32 +1,27 @@
-package replace.bi.inputOutput;
+package replace;
 
 /**
  * Created by Patrick on 28.11.16.
  */
 
-import replace.bi.data.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import replace.bi.DataMiningException;
+
+import replace.model.Attribute;
+import replace.model.DataSet;
+import replace.model.Field;
+import replace.model.Row;
 
 public class DataSetReader {
 
-    private static Pattern pattern_numeric;
     private static final String SEPERATION_CHAR = ",";
 
     private String filename;
     private DataSet dataset;
-
-    static {
-        pattern_numeric = Pattern.compile("-?[\\d.]+(?:e-?\\d+)?");
-    }
 
     public DataSetReader(String filename) {
         this.filename = filename;
@@ -34,35 +29,32 @@ public class DataSetReader {
 
     public DataSet read() throws Exception {
         BufferedReader br = null;
-        this.dataset = new DataSet();
+        dataset = new DataSet();
         boolean first = true;
         try {
-            br = new BufferedReader(new FileReader(this.filename));
+            br = new BufferedReader(new FileReader(filename));
             String line;
-            // int i = 0;
             while ((line = br.readLine()) != null) {
                 if (first) {
-                    this.readHeader(line);
+                    readHeader(line);
                     first = false;
                 } else {
-                    this.readLine(line);
-                    // i++;
+                    readContent(line);
                 }
             }
-            // this.dataset.setLength(i);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            throw new DataMiningException();
+            throw new IllegalArgumentException("You must enter a correct filename - " + e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            throw new DataMiningException();
+            throw new IllegalArgumentException("Error reading file - " + e.getMessage());
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    throw new DataMiningException();
+                    throw new IllegalArgumentException("Error reading file - " + e.getMessage());
                 }
             }
         }
@@ -70,38 +62,36 @@ public class DataSetReader {
     }
 
     private void readHeader(String line) {
-        StringTokenizer st = new StringTokenizer(line, SEPERATION_CHAR);
-        while (st.hasMoreTokens()) {
-            String inputString = st.nextToken();
-            this.dataset.addAttribute(inputString);
-        }
+    	String split[] = line.split(SEPERATION_CHAR);
+    	for (int i = 0; i < split.length; i++) {
+    		if(i == split.length-1){
+    			dataset.addAttribute(split[i], true);
+    		} else {
+    			dataset.addAttribute(split[i], false);
+    		}
+		}
     }
 
-    private void readLine(String line) {
-        StringTokenizer st = new StringTokenizer(line, SEPERATION_CHAR);
+    private void readContent(String line) {
+    	String split[] = line.split(SEPERATION_CHAR);
         Map<Attribute, Field> fields = new HashMap<Attribute, Field>();
         String cl = "";
-        int i = 0;
-        while (st.hasMoreTokens()) {
+        for (int i = 0; i < split.length; i++) {
             Attribute attribute = dataset.getAttributes().get(i);
-            String inputString = st.nextToken();
-            if (isNumeric(inputString)) {
+            String inputString = split[i];
+            if (inputString.matches("-?[\\d.]+(?:e-?\\d+)?")) {
                 fields.put(attribute,
                         Field.newField(Double.parseDouble(inputString)));
             } else if (inputString.equals(Field.MISSING_VALUE_CHAR)) {
                 fields.put(attribute, Field.newMissingField());
+            } else if (i == split.length - 1) {
+            	cl = inputString;
             } else {
-                cl = inputString;
+            	fields.put(attribute, Field.newField(inputString));
             }
-            i++;
         }
         Row value = new Row(cl, fields);
-        this.dataset.add(value);
-    }
-
-    private boolean isNumeric(String s) {
-        Matcher m = pattern_numeric.matcher(s);
-        return m.matches();
+        dataset.add(value);
     }
 
 }

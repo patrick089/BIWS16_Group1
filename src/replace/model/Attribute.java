@@ -1,4 +1,4 @@
-package replace.bi.data;
+package replace.model;
 
 /**
  * Created by Patrick on 28.11.16.
@@ -58,4 +58,10 @@ public class Attribute {
         return true;
     }
 
+	@Override
+	public String toString() {
+		return "Attribute [cl=" + cl + ", name=" + name + "]";
+	}
+
+    
 }

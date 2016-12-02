@@ -1,4 +1,4 @@
-package replace.bi.data;
+package replace.model;
 
 /**
  * Created by Patrick on 28.11.16.
@@ -12,13 +12,15 @@ import java.util.Collection;
 
 public class DataSet {
 
-    public List<Attribute> attributes = new ArrayList<Attribute>();
+    @Override
+	public String toString() {
+		return "DataSet [attributes=" + attributes + ", classes=" + classes
+				+ ", rows=" + rows + "]";
+	}
+
+	public List<Attribute> attributes = new ArrayList<Attribute>();
     public Map<String, Cl> classes = new HashMap<String, Cl>();
     public List<Row> rows = new ArrayList<Row>();
-
-    //public Dataset() {
-
-    //}
 
     public Cl getClByName (String name) {
         return this.classes.get(name);
@@ -28,7 +30,7 @@ public class DataSet {
         return classes.values();
     }
 
-    public Attribute addAttribute(String name) {
+    public Attribute addAttribute(String name, boolean cl) {
         Attribute attribute = Attribute.newAttribute(name);
         this.attributes.add(attribute);
         return attribute;

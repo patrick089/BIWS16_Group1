@@ -1,4 +1,4 @@
-package replace.bi.data;
+package replace.model;
 
 /**
  * Created by Patrick on 28.11.16.
@@ -8,9 +8,9 @@ public class Field {
     public static String MISSING_VALUE_CHAR = "?";
 
     private boolean missing = false;
-    private double value;
+    private Object value;
 
-    public static Field newField(double value) {
+    public static Field newField(Object value) {
         return new Field(value);
     }
 
@@ -18,7 +18,7 @@ public class Field {
         return new Field(true);
     }
 
-    private Field(double value) {
+    private Field(Object value) {
         this.value = value;
     }
 
@@ -26,7 +26,7 @@ public class Field {
         this.missing = missing;
     }
 
-    public double getValue() {
+    public Object getValue() {
         return this.value;
     }
 
@@ -34,12 +34,9 @@ public class Field {
         return this.missing;
     }
 
-    public String toString () {
-        if (missing) {
-            return MISSING_VALUE_CHAR;
-        } else {
-            return this.value + "";
-        }
-    }
+    @Override
+	public String toString() {
+		return "Field [missing=" + missing + ", value=" + value + "]";
+	}
 
 }

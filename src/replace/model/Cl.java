@@ -1,4 +1,4 @@
-package replace.bi.data;
+package replace.model;
 
 /**
  * Created by Patrick on 28.11.16.
@@ -9,7 +9,12 @@ import java.util.List;
 
 public class Cl {
 
-    private String name;
+    @Override
+	public String toString() {
+		return "Cl [name=" + name + ", values=" + values + "]";
+	}
+
+	private String name;
     private List<Row> values = new ArrayList<Row>();
 
     public Cl(String name) {
