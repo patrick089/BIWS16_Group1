@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.print.attribute.standard.MediaName;
+
 public class DataSetAnalyzer {
 
     private DataSet dataset;
@@ -146,40 +148,6 @@ public class DataSetAnalyzer {
         }
     }
 
-    public void print() {
-        int i = 1;
-        for (Attribute attribute : dataset.getAttributes()) {
-            if (attribute.isCl()) {
-                continue;
-            }
-            System.out.println(attribute);
-            if(null!=means.get(attribute)){
-	            System.out
-	                    .println(fixedLenthString(i + "", 5)
-	                            + fixedLenthString(attribute.getName(), 25)
-	                            + fixedLenthString(
-	                            missingValueString(hasMissingValue(attribute)),
-	                            5)
-	                            + "   avg: "
-	                            + fixedLenthString(roundmean(means.get(attribute))
-	                            + "", 20));
-	            int j = 1;
-	            for (Cl cl : dataset.getCles()) {
-	                System.out.println("     -"
-	                        + fixedLenthString(j + "", 2)
-	                        + fixedLenthString(cl.getName(), 22)
-	                        + fixedLenthString(
-	                        missingValueString(hasMissingValue(attribute,
-	                                cl)), 5)
-	                        + "   avg: "
-	                        + fixedLenthString(roundmean(meansByCl
-	                        .get(attribute).get(cl)) + "", 10));
-	                j++;
-	            }
-            }
-            i++;
-        }
-    }
 
     public Object getMean(Attribute attribute) {
     	if(null!=means.get(attribute)){

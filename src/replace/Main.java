@@ -26,10 +26,6 @@ public class Main {
             return;
         }
 
-        System.out.println("Print current medians: ");
-        DataSetAnalyzer medianCalculator = new DataSetAnalyzer(dataset);
-        medianCalculator.print();
-
         DataSet newDataset;
         HandleMissingValues missingValueReplacer;
         if (args.length != 3) {
@@ -52,10 +48,6 @@ public class Main {
                 throw new IllegalArgumentException("Unknown mode " + args[2] + ". Know modes are ignore, replaceByAttributeMean, replaceByClassMean");
             }
         }
-
-        System.out.println("Print medians after replacements: ");
-        DataSetAnalyzer newMedianCalculator = new DataSetAnalyzer(newDataset);
-        newMedianCalculator.print();
 
         new DataSetWriter(args[1], newDataset).write();
     }

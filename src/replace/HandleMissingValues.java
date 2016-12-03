@@ -33,7 +33,6 @@ public class HandleMissingValues {
             List<Attribute> attributesWithMissingFields = new ArrayList<>();
             boolean first = true;
             for (Row row : dataset.getRows()) {
-            	System.out.println(row);
                 for (Attribute attribute : dataset.getAttributes()) {
                     // Only attributes that are not class identifiers
                     if (attribute.isCl()) {
